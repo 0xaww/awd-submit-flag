@@ -1,23 +1,14 @@
+#coding:utf-8
 import urllib
 import urllib2
-def main(ip,port,message):
-    flag_content = message['flag']
 
-    ##submit flag
-    return os.system("echo "+flag_content)
+# 打开Debug Log 方便调试
+httpHandler = urllib2.HTTPHandler(debuglevel=1)
+httpsHandler = urllib2.HTTPSHandler(debuglevel=1)
+opener = urllib2.build_opener(httpHandler, httpsHandler)
+urllib2.install_opener(opener)
 
-    ##curl
-    #os.system("curl -k 'https://172.16.4.1/Common/awd_sub_answer' -d 'token=35c6f7e1adbbdc0acd8850119c8c0d52&answer='"+flag_content+" -X POST")
-
-    ##post&&get
-    #web_submit.main("192.168.1.1",port,message)
-def web_submit(ip,port,message):
-    # 打开Debug Log 方便调试
-    httpHandler = urllib2.HTTPHandler(debuglevel=1)
-    httpsHandler = urllib2.HTTPSHandler(debuglevel=1)
-    opener = urllib2.build_opener(httpHandler, httpsHandler)
-    urllib2.install_opener(opener)
-
+def main(url):
     try:
         #flag_content = message['flag']
         #data是要提交的数据 按照他要求的格式填
@@ -39,7 +30,7 @@ def web_submit(ip,port,message):
             'X-Requested-With':'XMLHttpRequest',
         }
         req = urllib2.Request(
-                        url = ip,
+                        url = url,
                         data = data,
                         headers = header
                     )
@@ -48,10 +39,5 @@ def web_submit(ip,port,message):
     except urllib2.HTTPError, e:
             print 'error', e.code
 
-
-
-
-
-
 if __name__ == '__main__':
-    main(ip,port,message)
+    main(url)
