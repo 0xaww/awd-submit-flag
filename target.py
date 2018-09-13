@@ -9,10 +9,11 @@ def input():
     #port = raw_input('please input port(example:9999):')
 
     #fixed
+    skip_ip = ("127.0.0.11","127.0.0.15")
     startip = "127.0.0.1"
-    endip = "127.0.0.2"
+    endip = "127.0.0.255"
     port = 9999
-    return startip,endip,port
+    return startip,endip,skip_ip,port
 
 def findIPs(start, end):
     ipstruct = struct.Struct('>I')
@@ -21,9 +22,9 @@ def findIPs(start, end):
     return [socket.inet_ntoa(ipstruct.pack(i)) for i in range(start, end+1)]
 
 def main():
-    startip ,endip ,port = input()
+    startip ,endip ,skip_ip ,port = input()
     ip_list = findIPs(startip ,endip)
-    return startip , endip , port , ip_list
+    return startip , endip , skip_ip , port , ip_list
 
 
 if __name__ == '__main__':
