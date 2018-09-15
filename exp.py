@@ -21,7 +21,7 @@ def main(ip,port):
         raise
     except Exception, e:
         a = str(e)
-        return {'status':a, 'flag':'no flag'}
+        return {'status':"failed"+a, 'flag':'no flag'}
     return {'status':'success', 'flag': flag}
 
 if __name__ == '__main__':
