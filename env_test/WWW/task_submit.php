@@ -11,13 +11,13 @@
 <td><input name="task_id" type="text" id="task_id"/></td>
 </tr>
 <tr>
-<td>内容:</td>
+<td>content:</td>
 <td><input name="task_content" type="text" id="task_content"/></td>
 </tr>
 <tr>
 <td colspan="2" align="center">
-<input type="submit" value="提交" name="submit"/>
-<input type="reset" value="重置" name="button"/>
+<input type="submit" value="submit" name="submit"/>
+<input type="reset" value="reset" name="button"/>
 </td>
 </tr>
 </table>

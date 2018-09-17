@@ -5,8 +5,8 @@ $task_id = $_POST['task_id'];
 if($task_content == "123456")
 {
 echo "id: $task_id <br>\n";
-echo "ÄÚÈÝ£º $task_content <br>\n";
-echo "flag: flag{nosdf_fksl_fkmejnsl} <br>\n";
+echo "content: $task_content <br>\n";
+echo "flag: flag{123123} <br>\n";
 }
 //print_r($_POST)
 //echo "aaaa";

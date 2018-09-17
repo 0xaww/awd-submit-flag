@@ -19,7 +19,7 @@ def web_submit(submit_addr,flag,token,success_request,failed_request):
 
 
     try:
-        #data是要提交的数据 按照他要求的格式填
+        #data是要提交的数据 按照要求的格式填
         data =  {'token': token,'flag': flag,'submit': 'submit'}
         data = urllib.urlencode(data)
         content_length = len(data)
@@ -56,8 +56,8 @@ def web_submit(submit_addr,flag,token,success_request,failed_request):
 
 
 def main(submit_addr,message,token,success_request,failed_request):
+    print message
     flag = message['flag']
-    print submit_addr,message,token,success_request,failed_request
     ##submit flag
     #return os.system("echo "+flag)
 
@@ -72,5 +72,3 @@ def main(submit_addr,message,token,success_request,failed_request):
 
 if __name__ == '__main__':
     main(submit_addr,message,token,success_request,failed_request)
-    #print main("http://172.16.99.129/flag_request.php",{'flag':'flag{123123}','status':'success'},"fsagsd12312","success","failed")
-    

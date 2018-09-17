@@ -15,4 +15,4 @@ def main(ip,message):
         write_log(ip,submit_status,getflag_status,flag_content)
 
 if __name__ == '__main__':
-    main(ip,message,flag)
+    main(ip,message)

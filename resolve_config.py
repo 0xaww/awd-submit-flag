@@ -17,7 +17,9 @@ def main():
     token = config.get("config","token")
     success_request = config.get("config","success_request")
     failed_request = config.get("config","failed_request")
-    return start_ip,end_ip,skip_ip,port,submit_addr,script_function,url_file,flag_file,round_time,token,success_request,failed_request
+    flag_start = config.get("config","flag_start")
+    flag_end = config.get("config", "flag_end")
+    return start_ip,end_ip,skip_ip,port,submit_addr,script_function,url_file,flag_file,round_time,token,success_request,failed_request,flag_start,flag_end
 
 if __name__ == '__main__':
     main()

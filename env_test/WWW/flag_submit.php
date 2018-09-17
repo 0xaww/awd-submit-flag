@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
-<title>flag提交页面</title>
+<title>flag subimt page</title>
 </head>
 <body>
 <form action="flag_request.php" method="post" name="registForm">
