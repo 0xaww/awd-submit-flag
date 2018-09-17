@@ -5,8 +5,8 @@ def write_log(ip,submit_status,getflag_status,flag_content):
 
 def main(ip,message):
     getflag_status = message['getflag_status']
-    flag_content = message['flag']
     submit_status = message['submit_status']
+    flag_content = message['flag']
     if "success" in getflag_status:
         #print "this machine can be hacked"
         write_log(ip,submit_status,getflag_status,flag_content)

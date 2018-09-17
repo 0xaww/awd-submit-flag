@@ -1,7 +1,6 @@
 import os
-import exp
+import pwn_flag
 import target
-import exploit
 import web_flag
 import submit
 import log
@@ -19,19 +18,19 @@ def main():
     if script_function == "pwn":
         while 1:
             for ip in ip_list:
-                message = exploit.main(ip,port)
-                submit_status = submit.main(submit_addr,port,message,success_request,failed_request)
-                message['submit_status'] = submit_status
+                message = pwn_flag.main(ip,port)
+                submit_status = submit.main(submit_addr,message,token,success_request,failed_request)
+                message['submit_status'] = submit_status['status']
                 log.main(ip,message)
             time.sleep(round_time)
     elif script_function == "web":
-        #while 1:
+        while 1:
             for url in url_file:
                 message = web_flag.main(url,flag_start,flag_end)
                 submit_status = submit.main(submit_addr,message,token,success_request,failed_request)
                 message['submit_status'] = submit_status['status']
                 log.main(url,message)
-            #time.sleep(round_time)
+            time.sleep(round_time)
     elif script_function == "local":
         while 1:
             for flag in flag_file:
