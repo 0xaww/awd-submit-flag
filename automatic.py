@@ -13,8 +13,8 @@ def clean():
 
 def main():
     #get config
-    start_ip,end_ip,skip_ip,port,submit_addr,script_function,url_file,flag_file,round_time,token,success_request,failed_request,flag_start,flag_end = resolve_config.main()
-    ip_list = target.main(start_ip,end_ip,skip_ip)
+    ip_mode,start_ip,end_ip,skip_ip,port,submit_addr,script_function,url_format,flag_file,round_time,token,success_request,failed_request,flag_start,flag_end = resolve_config.main()
+    ip_list = target.main(ip_mode,start_ip,end_ip,skip_ip)
     if script_function == "pwn":
         while 1:
             for ip in ip_list:
@@ -25,7 +25,8 @@ def main():
             time.sleep(round_time)
     elif script_function == "web":
         while 1:
-            for url in url_file:
+            for ip in ip_list:
+                url = url_format % ip
                 message = web_flag.main(url,flag_start,flag_end)
                 submit_status = submit.main(submit_addr,message,token,success_request,failed_request)
                 message['submit_status'] = submit_status['status']

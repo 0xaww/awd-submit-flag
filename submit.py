@@ -24,7 +24,7 @@ def web_submit(submit_addr,flag,token,success_request,failed_request):
         data = urllib.urlencode(data)
         content_length = len(data)
         header = {
-            'Host':'172.16.99.129',
+            'Host':'10.10.10.6',
             'Content-Type':'application/x-www-form-urlencoded',
             'Origin':'http://172.16.99.129',
             'Accept-Encoding':'gzip, deflate',
@@ -44,6 +44,7 @@ def web_submit(submit_addr,flag,token,success_request,failed_request):
         response = urllib2.urlopen(req, timeout = 2)
         request_url = response.read()
         #request_url = request_url.decode('gbk')#gbk decode
+        print(request_url)
         if success_request in request_url:
             return {'status':"submit success", 'flag':flag}
         elif failed_request in request_url:
@@ -55,8 +56,10 @@ def web_submit(submit_addr,flag,token,success_request,failed_request):
 
 
 
+
+
+
 def main(submit_addr,message,token,success_request,failed_request):
-    print message
     flag = message['flag']
     ##submit flag
     #return os.system("echo "+flag)

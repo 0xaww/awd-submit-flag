@@ -20,7 +20,7 @@ def main(ip,port):
         raise
     except Exception, e:
         a = str(e)
-        return {'getflag_status':"getflag failed "+a, 'flag':'error'}
+        return {'getflag_status':'getflag failed'+a, 'flag':'error'}
 
 if __name__ == '__main__':
     main(ip,port)
