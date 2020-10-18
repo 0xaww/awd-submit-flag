@@ -1,77 +1,65 @@
 ##coding:utf-8
-import urllib
-import urllib2
+import os
 import requests
- 
- 
-def get_content_length(data):
-    length = len(data.keys()) * 2 - 1
-    total = ''.join(list(data.keys()) + list(data.values()))
-    length += len(total)
-    return length
- 
-def web_submit(submit_addr,flag,token,success_request,failed_request):
-    # 打开Debug Log 方便调试
-    httpHandler = urllib2.HTTPHandler(debuglevel=1)
-    httpsHandler = urllib2.HTTPSHandler(debuglevel=1)
-    opener = urllib2.build_opener(httpHandler, httpsHandler)
-    urllib2.install_opener(opener)
+import subprocess
+import sys
 
+
+def requests_submit(submit_addr,token,success_request,failed_request,message):
 
     try:
-        #data是要提交的数据 按照要求的格式填
-        data =  {'token': token,'flag': flag,'submit': 'submit'}
-        data = urllib.urlencode(data)
-        content_length = len(data)
-        header = {
-            'Host':'10.10.10.6',
-            'Content-Type':'application/x-www-form-urlencoded',
-            'Origin':'http://172.16.99.129',
-            'Accept-Encoding':'gzip, deflate',
-            'Connection':'keep-alive',
-            'Upgrade-Insecure-Requests':'1',
-            'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15',
-            'Referer':'http://172.16.99.129/flag_submit.php',
-            'Content-Length':content_length,
-            'Accept-Language':'zh-cn'
-        }
-        req = urllib2.Request(
-                        url = submit_addr,
-                        data = data,
-                        headers = header
-                    )
-        response = urllib2.urlopen(req, timeout = 2)
-        request_url = response.read()
-        #request_url = request_url.decode('gbk')#gbk decode
-        print(request_url)
-        if success_request in request_url:
-            return {'status':"submit success", 'flag':flag}
-        elif failed_request in request_url:
-            return {'status':"submit failed", 'flag':flag}
+
+        flag = message['flag']
+
+        formdata = {"token":token,"flag":flag,}
+        headers={ "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"}
+        cookies = {"cookie_name": "cookie_value", }
+        response = requests.post(submit_addr, data = formdata, headers = headers, cookies=cookies, verify = False, timeout=3)
+        # print(response.text)
+
+        if success_request in response.text:
+            message['submit_status'] ="submit success"
+            return message
+        elif failed_request in response.text:
+            message['submit_status'] ="submit failed"
+            return message
         else:
-            return {'status':"submit other", 'flag':flag}
-    except urllib2.HTTPError, e:
-            return {'status':"submit failed "+ str(e), 'flag':flag}
+            message['submit_status'] ="submit other reasons"
+            return message
+    except Exception, e:
+        message['submit_status'] = "submit failed:"+ str(e)
+        return flag
+
+def curl_submit(submit_addr,token,success_request,failed_request,message):
+    try:
+        flag = message['flag']
+        ##curl -s slient -k no vertify -X POST -d data
+        curl_order = "curl -s -k -X POST {0} -d 'token={1}&flag={2}'".format(submit_addr,token,flag)
+        response = subprocess.check_output(curl_order, shell=True)
+        if success_request in response:
+            message['submit_status'] ="submit success"
+            return message
+        elif failed_request in response:
+            message['submit_status'] ="submit failed"
+            return message
+        else:
+            message['submit_status'] ="submit other reasons"
+            return message
+    except Exception, e:
+        message['submit_status'] = "submit failed:"+ str(e)
+        return message
 
 
+def main(submit,message):
+    if submit.submit_method == "curl":
+        return curl_submit(submit.submit_addr,submit.token,submit.success_request,submit.failed_request,message)
 
-
-
-
-def main(submit_addr,message,token,success_request,failed_request):
-    flag = message['flag']
-    ##submit flag
-    #return os.system("echo "+flag)
-
-    ##curl
-    #os.system("curl -k 'https://172.16.4.1/Common/awd_sub_answer' -d 'token=35c6f7e1adbbdc0acd8850119c8c0d52&answer='"+flag+" -X POST")
-
-    ##post&&get
-    return web_submit(submit_addr,flag,token,success_request,failed_request)
-
-
-
+    elif submit.submit_method == "requests":
+        return requests_submit(submit.submit_addr,submit.token,submit.success_request,submit.failed_request,message)
 
 if __name__ == '__main__':
-    main(submit_addr,message,token,success_request,failed_request)
+    import resolve_config
+    con = resolve_config.main()
+    flag = sys.argv[1]
+    message = {'getflag_status': "getflag success", 'flag': flag}
+    print(main(con.submit,message))

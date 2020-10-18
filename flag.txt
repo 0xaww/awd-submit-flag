@@ -1,4 +1,5 @@
 flag{123123}
 flag{fafsdfa}
-xctf{efsdafasd}
-bctf{fafdadsfsdf}
+gctf{efsdafasd}
+flag{223223}
+cctf{fafdadsfsdf}

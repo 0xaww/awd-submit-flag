@@ -1,0 +1,17 @@
+version: '3'
+services:
+  env_test:
+    build: .
+    ports:
+     - "9999:9999"
+     - "8888:80"
+#     networks:
+#       service_net:
+#         ipv4_address: 192.168.4.2
+# networks:
+#   service_net:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#       - subnet: 192.168.4.0/24
