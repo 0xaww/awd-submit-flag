@@ -59,24 +59,33 @@ def submit(ip,port,flag):
         return False
 
 def main():
-    # 一轮中所有队伍
-    for i in range(101,124):
-        self_id = 103 # 跳过自己的队伍ip
-        if i == self_id:
-            continue
-        # 修改ip地址格式
-        ip = "192.168."+str(i)+".101"
-        # ip = "172.16.100."+str(i)
-        # 修改题目端口
-        port = "9999"
-        flag = attack(ip,port)
-        submit(ip,port,flag)
-        time.sleep(1)
-    print("[\033[0;30;43mROUND\033[0m] "+time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+" round attack end, waitting for next round")
+    try:
+        # 一轮中所有队伍
+        for i in range(101,124):
+            self_id = 103 # 跳过自己的队伍ip
+            if i == self_id:
+                continue
+            # 修改ip地址格式
+            ip = "192.168."+str(i)+".101"
+            # ip = "172.16.100."+str(i)
+            # 修改题目端口
+            port = "9999"
+            flag = attack(ip,port)
+            submit(ip,port,flag)
+            time.sleep(1)
+        print("[\033[0;30;43mROUND\033[0m] "+time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+" round attack end, waitting for next round")
+    except Exception as e:
+        print("[\033[0;37;41mERROR\033[0m] \033[0;37;41mmain function error, because: " + str(e) + "\033[0m")
+        exit(0)
+
 
 if __name__ == '__main__':
-    while 1:
-        # 每个轮次
-        print("[\033[0;30;43mROUND\033[0m] "+time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+" begin to attack")
-        main()
-        time.sleep(10*60)
+    try:
+        while 1:
+            # 每个轮次
+            print("[\033[0;30;43mROUND\033[0m] "+time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+" begin to attack")
+            main()
+            time.sleep(10*60)
+    except Exception as e:
+        print("[\033[0;37;41mERROR\033[0m] \033[0;37;41mmain function error, because: " + str(e) + "\033[0m")
+        exit(0)
